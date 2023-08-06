@@ -1,0 +1,22 @@
+services:
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./.env:/srv/node/app/.env:ro
+
+  redis:
+    image: redis:7.0.8
+    command: redis-server --appendonly yes 
+    volumes:
+      - redis-data:/data
+    expose:
+        - "6379"
+    restart: unless-stopped
+
+volumes:
+  redis-data:
